@@ -1,9 +1,15 @@
 --ex.2.4.2
-split::Int -> (Int, Int)
+import Data.List
+
+integers = 0:[ y | x<- [1..], y <- [x, -x]]
+
+splitCandidates:: Int -> [(Int, Int)]
+splitCandidates x = [(y, z) | z <- [-5..5], y <- integers, x == 10 * y + z]
+
 split x =
-	let 	y = x `mod` 10
-		z = x `div` 10
-	in	(if abs(y) > 5 then
-			if 	y > 5 then (y - 10, z + 1)
-			else	(10 + y, z - 1)
-		else	(y, z))
+	if (abs . snd . head $ candidate) == 5 then
+		if (fst . head $ candidate) < (fst .last $ candidate) then
+			head candidate
+		else	last candidate
+	else	head candidate
+	where candidate = splitCandidate x
