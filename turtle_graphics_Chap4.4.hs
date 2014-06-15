@@ -1,3 +1,5 @@
+import Data.List
+
 type State = (Direction, Pen, Point)
 type Direction = Int 
 type Pen = Bool
@@ -28,7 +30,6 @@ turtle::[Command]->[State]
 turtle = scanl applyto (0, False, (0,0))
 applyto x f = f x
 
-
 --display::[Command]->[Char]
 display = layout . picture . trail . turtle
 
@@ -45,7 +46,6 @@ by inserting newlines between rows and concatenating the results
 -}
 layout [] = []
 layout (x:xs) = x ++ "\n" ++ (layout xs)
-
 
 -- "picture" converts the list into a two-dimensional picture ( a value of type [[Char]] )
 picture::[Point] -> [[Char]]
@@ -64,3 +64,12 @@ boolchar x
 boolstr = map boolchar 
 symbolise = map boolstr
 
+----------------------------------
+copy count x = [x | i <- [1..count]]
+square k = [down] ++ concat (copy 4 side) ++ [up]
+        where side = copy k move ++ [right]
+block 0 = []
+block k = square k ++ block (k - 1)
+
+------------------------------------------
+ 
